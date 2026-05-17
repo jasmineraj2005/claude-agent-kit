@@ -52,6 +52,24 @@ A fix without phases 3–4 is a band-aid. It will come back.
 - If the bug pattern could exist elsewhere in the codebase, grep for the pattern and check.
 - Note the root cause in the commit body, not just the symptom.
 
+## Why this rule exists
+
+**Violation**
+
+> Error at `OrderSummary` line 34 reading a `name` property on an undefined value. Fix: wrap the access in an optional-chain guard. Tests pass, ship it.
+
+The symptom is gone. The root cause (some upstream code is letting the order reach this component without a user attached) is untouched. The same bug will appear at the next access site and in adjacent components next sprint.
+
+**Compliance**
+
+> Same error. Traced up: `OrderSummary` is rendered from `OrderList`, which calls `fetchOrders`. Inspected `fetchOrders`: recently changed to a lighter projection that omits the user join. Real fix: restore the join or change the component contract explicitly. Added a regression test for the empty-user case and one for the projection shape.
+
+The fix is at the source. The test prevents recurrence. The trace is documented so the next person does not repeat the investigation.
+
+**What ships without this rule**
+
+A codebase studded with optional-chain guards and silent catches around a real upstream bug nobody has named. Every new feature adds more guards. Performance suffers from defensive checks at every layer. The actual root cause never gets fixed because every report looks "already handled."
+
 ## Sources
 
 - obra/superpowers — systematic-debugging skill

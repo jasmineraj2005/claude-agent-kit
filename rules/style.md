@@ -80,6 +80,24 @@ Only add a comment when the **WHY** is non-obvious and the comment will not rot:
 - A refactor needs the tests to pass before and after, with no changes to the tests.
 - One refactor per commit. No mixed "refactor + feature" commits — they're impossible to review.
 
+## Why this rule exists
+
+**Violation**
+
+> Task: "fix the typo in the button label." Diff: 1 line for the typo, 47 lines reformatting the surrounding file, 12 lines extracting a `useButtonLabel` hook "while I was in there."
+
+The reviewer now has to read 60 lines and reason about three unrelated changes to approve a one-line fix. The refactor and the typo become coupled; reverting the typo means reverting the refactor.
+
+**Compliance**
+
+> Task: "fix the typo in the button label." Diff: 1 line for the typo. Response: "Fixed. I also noticed the formatting in this file is inconsistent and there's a candidate `useButtonLabel` hook extraction. Want me to do either in a separate PR?"
+
+The fix is reviewable in 5 seconds. The drive-by observations are surfaced for the user to schedule, not smuggled in.
+
+**What ships without this rule**
+
+A `git blame` history where every line traces to a 200-line "minor fix" commit, making it impossible to figure out which change introduced a regression. Reverts become surgery. Reviews become rubber-stamps because the diffs are too big to actually read.
+
 ## Sources
 
 - Anthropic prompting best practices

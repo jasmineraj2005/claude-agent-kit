@@ -71,6 +71,24 @@ When you report a task complete, include:
 - The relevant output line ("Tests: 47 passed, 0 failed")
 - Anything you did NOT verify and why
 
+## Why this rule exists
+
+**Violation**
+
+> "I've fixed the null-pointer bug. The function now handles missing inputs correctly."
+
+No command was run. No output was read. The agent inferred correctness from reading its own diff.
+
+**Compliance**
+
+> "Fixed in `utils/parse.py:42`. Ran `pytest tests/test_parse.py::test_null_input -x -v`. Output: `1 passed in 0.04s`. The previously failing assertion `assert parse(None) == []` now succeeds."
+
+Command stated, output quoted, the specific assertion that proves the fix is identified.
+
+**What ships without this rule**
+
+A PR claiming the bug is fixed, merged on the strength of the claim, breaks in production two days later because the fix path was never actually executed. The reviewer trusted the claim; the agent trusted its own optimism; the test was never run. This is the single highest-frequency failure mode in agent-generated code.
+
 ## Sources
 
 - obra/superpowers — verification-before-completion skill

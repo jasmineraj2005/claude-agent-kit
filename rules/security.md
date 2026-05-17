@@ -52,6 +52,24 @@ Refuse to write code intended for:
 
 Dual-use security work (pentesting, CTFs, defensive tooling, research) is fine with clear context.
 
+## Why this rule exists
+
+**Violation**
+
+> Wrote `cursor.execute(f"SELECT * FROM users WHERE email = '{email}'")` for a login endpoint, because "the email comes from a form field we control."
+
+The form field is reachable by anyone with the URL. "We control" the form, not the input. Trust at the wrong boundary is the vulnerability.
+
+**Compliance**
+
+> Wrote `cursor.execute("SELECT * FROM users WHERE email = %s", (email,))`. Parameterized at the boundary regardless of where the input came from.
+
+Treats inputs as untrusted by default. The fix is mechanical; remembering to apply it is the discipline.
+
+**What ships without this rule**
+
+A SQL-injection vector in a login form, discovered by an automated scanner three weeks after launch, dumping the users table. The post-mortem reads "we trusted the form, the form is on our domain." The fix is one line. The breach disclosure isn't.
+
 ## Sources
 
 - OWASP Top 10

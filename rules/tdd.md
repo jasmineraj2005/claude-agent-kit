@@ -77,6 +77,24 @@ In all three cases: say out loud that you're skipping TDD, and why. Default is o
 - "Mocking everything so the test passes" → if the test mocks the thing under test, it tests nothing.
 - "The test passes locally but fails in CI" → CI is the source of truth. Fix the test or fix the code.
 
+## Why this rule exists
+
+**Violation**
+
+> Wrote `def calculate_discount(user, cart): ...` directly, then wrote a test asserting the result equals 15.00, ran it, saw green, claimed done.
+
+The test was written to match what the code already returned. It cannot detect bugs in the code; it only asserts the code's current behavior. Tests-after are not tests, they are change-detectors.
+
+**Compliance**
+
+> Wrote `test_premium_user_gets_20_percent_off` first. Ran it: `AssertionError: expected 20.00, got 0` (the function doesn't exist yet, or returns 0). Then implemented `calculate_discount`. Re-ran: `1 passed`. Confirmed the test was watched failing in this session.
+
+The failing run proves the test actually exercises the behavior. Without that step you cannot tell a real test from a tautology.
+
+**What ships without this rule**
+
+A "100% test coverage" suite that catches zero real bugs because every test was written after the code and tuned to pass on the existing implementation. The first time the code regresses on user-facing behavior the suite stays green. The team loses faith in the suite, runs it less, and ships regressions confidently.
+
 ## Sources
 
 - obra/superpowers — test-driven-development skill

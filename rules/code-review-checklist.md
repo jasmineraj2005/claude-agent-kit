@@ -79,6 +79,24 @@ Write a one-paragraph PR description that answers: **what changed, why, how to v
 
 For a one-line typo fix or a trivial doc change, this is too much. Use judgment — but err toward running it when the change touches behavior, security, or data.
 
+## Why this rule exists
+
+**Violation**
+
+> "Done, PR open." Reviewer opens it: `console.log("here")` on line 3, no test for the new branch, the diff also reformats an unrelated file, one of the new endpoints has no auth check.
+
+Every one of these would have been caught by 3 minutes of the checklist. Instead, 20 minutes of reviewer time and a back-and-forth.
+
+**Compliance**
+
+> "Done, PR open. Ran the checklist: tests green (`pytest -q` → 142 passed), lint clean, no debug leftovers (grep'd), auth confirmed at `routes/orders.py:34`, no PII in new logs, no new deps. One risk to flag: the migration is forward-only — rollback would require a manual restore."
+
+The reviewer's job is now confirmation, not discovery. The risk is surfaced rather than buried.
+
+**What ships without this rule**
+
+A team where review is the QA step instead of a second opinion, where every PR has at least one "you forgot to remove the debug log" comment, and where reviewers' attention budget gets spent on mechanical issues instead of design feedback.
+
 ## Sources
 
 - Synthesized from Google's "What to look for in a code review" + Anthropic's `simplify` skill + dwarvesf/claude-guardrails checklist patterns.

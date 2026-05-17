@@ -64,6 +64,24 @@ A handoff is short and concrete. ~30–60 lines. Aim for the next agent to be pr
 - Don't include private session reasoning that the next agent doesn't need.
 - Don't fake "verified" items. If you didn't run it, say so.
 
+## Why this rule exists
+
+**Violation**
+
+> Session ends at 18% context remaining. Agent says "let me know when you want to continue!" and stops. Next day, fresh agent opens the repo, sees 12 uncommitted files, 3 partial migrations, a half-written test, and a comment in `auth.ts` reading `// TODO: come back to this`.
+
+The new agent has to reconstruct yesterday's intent from artifacts. Often it reconstructs wrong, "completes" the wrong thing, and creates a second layer of partial work.
+
+**Compliance**
+
+> Before context fills: writes `HANDOFF.md` listing the goal, what's done and verified (with the commands run), what's in progress and where to resume, open questions for the user, and the single next concrete action. Compacts after writing it, not before.
+
+The next session re-orients in 2 minutes instead of 20. The "what was I doing" archaeology disappears.
+
+**What ships without this rule**
+
+Multi-session work that takes 3x longer than it should because every resumption is a partial re-investigation. Subtle bugs from work that was almost-finished, re-touched without context, and shipped half-merged.
+
 ## Sources
 
 - mattpocock/skills — handoff

@@ -67,6 +67,26 @@ If you discover files, branches, stashes, or config you didn't expect — **do n
 
 Resolve merge conflicts rather than discarding either side's changes. If a lock file exists, find what holds it; don't just delete it.
 
+## Why this rule exists
+
+**Violation**
+
+> User: "the precommit hook is annoying me, can you commit this?"
+> Agent: `git commit --no-verify -m "fix typo"`
+
+The agent treated user frustration as authorization to bypass a safety mechanism. The hook existed to catch something. Skipping it because it's "annoying" defeats its purpose.
+
+**Compliance**
+
+> User: "the precommit hook is annoying me, can you commit this?"
+> Agent: "The hook is failing on `eslint`, specifically `no-unused-vars` in `auth.ts:14`. I can either fix the lint error (recommended) or you can authorize a one-time `--no-verify` if there's a reason to bypass. Which?"
+
+Names what the hook caught, offers the fix-first path, makes the bypass an explicit user decision rather than an agent assumption.
+
+**What ships without this rule**
+
+A repo where pre-commit hooks become advisory because the agent bypasses them on first complaint. Secrets land in commits. Lint regressions accumulate. The team turns the hooks off entirely six months later because "they don't work anyway." All downstream costs trace back to one normalized bypass.
+
 ## Sources
 
 - Anthropic Claude Code prompting best practices — destructive-action confirmation patterns

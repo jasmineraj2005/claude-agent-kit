@@ -59,8 +59,27 @@ If you don't know the class, assume Restricted until told otherwise.
 
 Ask. Privacy mistakes are expensive and often irreversible.
 
+## Why this rule exists
+
+**Violation**
+
+> Added `logger.info(f"processed appointment for {patient}")` where `patient` is the full patient record (name, DOB, Medicare number, diagnosis). Reasoning: "we need it for debugging."
+
+That log line lands in CloudWatch / Datadog / wherever, retained for 90 days, indexed, queryable by anyone with logs access. PHI just exited the controlled boundary.
+
+**Compliance**
+
+> Added `logger.info("processed appointment", extra={"patient_id": patient.id, "appointment_type": appt.type})`. Identifying fields by surrogate ID; sensitive fields not logged. Redaction confirmed by a test asserting `caplog.records[0].getMessage()` contains no name / DOB / Medicare number.
+
+Log enough to debug, not enough to breach. The test makes the redaction discipline mechanical instead of human-memory-dependent.
+
+**What ships without this rule**
+
+A breach notification under HIPAA / Privacy Act, multi-week incident-response cycle, mandatory disclosure to every affected patient. Cost of the leak is orders of magnitude greater than the cost of writing `extra={...}` correctly the first time. For an Australian health-tech product the breach is also notifiable to the OAIC under the NDB scheme within 30 days.
+
 ## Sources
 
 - HIPAA Privacy and Security Rules
 - GDPR Articles 5, 15, 17, 25, 32
 - OWASP ASVS V8 (Data Protection)
+- Australian Privacy Act 1988, Notifiable Data Breaches scheme
