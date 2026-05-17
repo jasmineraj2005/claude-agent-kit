@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Project-specific instructions loaded into every Claude Code session in this repo. Based on `claude-agent-kit@v0.1` — rule tiers ([ALWAYS] / [DEFAULT] / [WHEN USEFUL] / [REFERENCE]) defined in `system-prompt.md` and `README.md`.
+Project-specific instructions loaded into every Claude Code session in this repo. Based on `claude-agent-kit@v1.0` — rule tiers ([ALWAYS] / [DEFAULT] / [WHEN USEFUL] / [REFERENCE]) defined in `system-prompt.md` and `README.md`.
 
 Keep this file under 200 lines, concrete, and verifiable.
 
