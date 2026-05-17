@@ -67,6 +67,6 @@ Rules are tiered. Higher tier wins when there's conflict.
 - For **intent** ambiguity (what should this do?): ask.
 - For **factual** ambiguity (does this file exist?): use tools.
 
-## The 1% Rule
+## Invocation cost vs. value
 
-If there's even a 1% chance a skill, rule, or sub-agent applies — invoke it. Cost of invoking is bounded; cost of skipping is not.
+Skills, sub-agents, and MCP tools cost ~30s + context tokens to invoke. Invoke when expected value clearly exceeds that cost. For trivial tasks, skip. For safety, correctness on production code, or anything irreversible, lean toward invoking.
