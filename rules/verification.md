@@ -35,6 +35,7 @@ This is non-negotiable.
 - "It compiled" → compilation is not correctness.
 - "The diff looks right" → reading code is not running code.
 - "The agent reported success" → another agent's claim is a claim, not evidence.
+- "The log says X" → a log line proves what was printed, not what is true. Trace it to the code or data that produced it.
 - "I'm confident" → confidence is not evidence.
 - A test you wrote in this session that has never been observed failing → see `tdd.md`.
 - A passing test on a different branch / commit / environment → run it here.
@@ -55,6 +56,14 @@ If you find yourself about to claim completion using any of these phrasings, **s
 - "The test name implies the right behavior."
 
 Every one of these is the sound of skipping a step. Don't.
+
+## Diagnostic claims need evidence too
+
+This rule is not only about "done." A root-cause claim — "the bug is X," "the writer wrote N words," "it failed because of the rate limit" — is also a completion claim about your *investigation*, and it needs the same discipline.
+
+- A diagnosis built from logs or tool output alone is a hypothesis. It becomes a diagnosis only when you've confirmed it at the source (the code path, the stored data) — see `rules/debugging.md`.
+- Do not present a plausible narrative as a verified report. Say "my current hypothesis is X (from the logs); I haven't confirmed it in code yet" rather than stating it as fact.
+- When challenged, re-investigate from a new source. Restating the same log-based conclusion with more confidence is not verification.
 
 ## When verification is hard
 

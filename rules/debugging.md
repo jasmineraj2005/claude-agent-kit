@@ -38,6 +38,27 @@ A fix without phases 3–4 is a band-aid. It will come back.
 - **Comment out the failing assertion**: making the test pass by deleting what it checks.
 - **"It works on my machine"**: stop. Find the environmental difference. That difference IS the bug.
 - **Restart and hope**: rebooting / clearing cache / `node_modules` nuke as a fix. That's a band-aid that hides a real bug — and one that will hit production where you can't restart.
+- **Log-faith**: drawing a root-cause conclusion from log / console / tool output without tracing it to the code or data that produced it. Output is a claim, not proof.
+- **Doubling down**: when challenged, re-reading the same evidence and re-asserting, instead of going to a new source of truth.
+- **Narrative over diagnosis**: shipping a tidy, plausible story as a "report" before the actual root cause has been confirmed at the source.
+
+## Evidence has layers — verify the diagnosis at its source
+
+A log line, a console print, a tool result, another agent's summary — these are *claims about what happened*, not proof of the root cause. They tell you what was emitted, not what is true. Before you name a root cause, follow the evidence down to the source that cannot lie: the code that produced the output, the row actually written to the database, the file actually on disk.
+
+- "The log says `wrote 1751 words`" proves the function printed that line. It does not prove the content was saved, was correct, or ever reached the user. Open the code path and confirm where that content actually goes.
+- A green exit code, a "success" toast, a "queued" message — confirm the *effect*, not the *announcement*.
+- If two layers disagree (the log says success, the queue is empty), the gap between them IS the bug. Go find it; don't pick the layer that fits your story.
+
+Rule of thumb: you have not found the root cause until you've read the line of code (or inspected the data) that makes it inevitable. A plausible narrative built from logs is a hypothesis, not a diagnosis — never ship it as a "report."
+
+## Hold the diagnosis loosely — especially under challenge
+
+When the user, a teammate, or new evidence contradicts your conclusion, treat it as a signal your investigation was incomplete — not as something to explain away.
+
+- Do NOT re-read the same evidence and restate the same conclusion with more confidence. Re-deriving the same answer from the same log twice is confirmation bias, not investigation.
+- Go to a *different, more authoritative* source than the one you already used. If you concluded from logs, now read the code. If you concluded from code, now run it or inspect the data.
+- "Are you sure?" is almost never a request for reassurance. It usually means the person can see something your investigation missed. Lower your confidence and dig — don't defend.
 
 ## When you're stuck
 
