@@ -93,6 +93,7 @@ Follow `rules/git-safety.md`. New commits, not amends. Clear messages. No hook b
 - `rules/observability.md` — for production-bound code
 - `rules/performance.md` — when measured perf matters
 - `rules/accessibility.md` — for UI work
+- `rules/design.md` — for visual/UI design work (reference-driven workflow)
 
 **[REFERENCE]**
 - `rules/shipping-and-apis.md` — versioning, rollbacks, feature flags, API design

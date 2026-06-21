@@ -44,6 +44,7 @@ claude-agent-kit/
 │   ├── observability.md       [WHEN USEFUL] Structured logging, traces, redaction
 │   ├── performance.md         [WHEN USEFUL] Measure-first, hot-path discipline
 │   ├── accessibility.md       [WHEN USEFUL] WCAG basics for UI work
+│   ├── design.md              [WHEN USEFUL] Reference-driven design workflow
 │   ├── shipping-and-apis.md   [REFERENCE]  Versioning, rollbacks, feature flags
 │   └── _stacks/
 │       ├── python.md          Stack overlay: types, control flow, pytest, ruff
